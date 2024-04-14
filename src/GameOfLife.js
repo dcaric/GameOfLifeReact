@@ -19,7 +19,7 @@ function randomizeGrid() {
   const rows = [];
   for (let i = 0; i < numRows; i++) {
     rows.push(
-      Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
+      Array.from(Array(numCols), () => (Math.random() > 0.8 ? 1 : 0))
     );
   }
   return rows;
@@ -80,7 +80,10 @@ function GameOfLife() {
         margin: '1px 0'
       }}>
         {grid.map((rows, i) =>
-          rows.map((col, j) => (
+          rows.map((col, j) => {
+            // generate randoom color, all but not black
+            const randomColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            return(
             <div
               key={`${i}-${j}`}
               onClick={() => {
@@ -93,11 +96,11 @@ function GameOfLife() {
               style={{
                 width: 5,
                 height: 5,
-                backgroundColor: grid[i][j] ? 'black' : 'white',
+                backgroundColor: grid[i][j] ? randomColor : 'black',
                 border: 'solid 1px black'
               }}
             />
-          ))
+          )})
         )}
       </div>
     </>
