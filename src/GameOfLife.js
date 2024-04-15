@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 const numRows = 90;
 const numCols = 200;
+let cycles = 0;
 const operations = [
   [0, 1], [0, -1], [1, -1], [-1, 1],
   [1, 1], [-1, -1], [1, 0], [-1, 0]
@@ -31,7 +32,7 @@ function GameOfLife() {
 
   const runSimulation = useCallback(() => {
     if (!running) return;
-
+    cycles++;
     setGrid((g) => {
       return g.map((row, i) =>
         row.map((cell, j) => {
@@ -54,7 +55,6 @@ function GameOfLife() {
         })
       );
     });
-
     setTimeout(runSimulation, 200);
   }, [running]);
 
@@ -67,13 +67,16 @@ function GameOfLife() {
   return (
     <>
       <button onClick={() => {
+        cycles = 0;
         setRunning(!running);
         if (!running) {
+          
           setGrid(randomizeGrid());
         }
       }}>
         {running ? 'Stop' : 'Start'}
       </button>
+      <label>  Generations: {cycles}</label>
       <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${numCols}, 5px)`,
